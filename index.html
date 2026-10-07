@@ -3,158 +3,236 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <title>Your Name | Portfolio</title>
 <meta name="description" content="Portfolio of projects built for TCSS 490: Generative AI for Software Development.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
+  /* Colors live here. Light is the default; dark follows the device setting or the toggle button. */
   :root {
-    --bg: #e8edf1;
-    --ink: #14213d;
-    --muted: #4d5a73;
-    --card: #f7f9fb;
-    --line: #14213d;
-    --mark: #ffd23f;
-    --link: #0b4fd1;
-    --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
-    --body: "Newsreader", Georgia, "Times New Roman", serif;
+    --bg: #f4f2fb; --ink: #1e1b4b; --muted: #3b3768;
+    --card: #ffffff; --border: #d9d4ee;
+    --accent: #4038c4; --featured-border: #4038c4; --link: #3730a3; --on-accent: #ffffff;
+    --gray-bg: #e9e8ee; --gray-border: #d3d2dc; --gray-ink: #5b5a6e;
+    --gray-tag-bg: #d3d2dc; --gray-tag-ink: #43425a;
+    --recess: inset 0 6px 12px rgba(30,27,75,0.4), inset 0 -1px 0 rgba(255,255,255,0.8);
+    --lift: 0 0 14px rgba(30,27,75,0.3), 0 8px 18px rgba(30,27,75,0.32), inset 0 1px 0 rgba(255,255,255,0.9);
+    --lift-featured: 0 0 16px rgba(55,48,163,0.45), 0 10px 22px rgba(55,48,163,0.5), 0 2px 4px rgba(30,27,75,0.3);
+    --font: "Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0f1626; --ink: #e6ebf4; --muted: #9aa7bf;
-      --card: #172037; --line: #e6ebf4; --link: #8db4ff;
+    :root:not([data-theme="light"]) {
+      --bg: #12112a; --ink: #d9d5f5; --muted: #b0acd6; --on-accent: #e4e1ff;
+      --accent: #4038c4; --card: #26254d; --border: #6c69bd; --featured-border: #7a73ef; --link: #aaa5f6;
+      --gray-bg: #16152c; --gray-border: #27263f; --gray-ink: #8d8ba8;
+      --gray-tag-bg: #27263f; --gray-tag-ink: #b3b1cc;
+      --recess: inset 0 6px 14px rgba(0,0,0,0.9), inset 0 -1px 0 rgba(255,255,255,0.1);
+    --lift: 0 0 14px rgba(0,0,0,0.7), 0 8px 20px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.12);
+    --lift-featured: 0 0 16px rgba(0,0,0,0.8), 0 10px 24px rgba(0,0,0,0.85), 0 2px 4px rgba(0,0,0,0.6);
     }
   }
+  :root[data-theme="dark"] {
+    --bg: #12112a; --ink: #d9d5f5; --muted: #b0acd6; --on-accent: #e4e1ff;
+    --accent: #4038c4; --card: #26254d; --border: #6c69bd; --featured-border: #7a73ef; --link: #aaa5f6;
+    --gray-bg: #16152c; --gray-border: #27263f; --gray-ink: #8d8ba8;
+    --gray-tag-bg: #27263f; --gray-tag-ink: #b3b1cc;
+    --recess: inset 0 6px 14px rgba(0,0,0,0.9), inset 0 -1px 0 rgba(255,255,255,0.1);
+    --lift: 0 0 14px rgba(0,0,0,0.7), 0 8px 20px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.12);
+    --lift-featured: 0 0 16px rgba(0,0,0,0.8), 0 10px 24px rgba(0,0,0,0.85), 0 2px 4px rgba(0,0,0,0.6);
+  }
+
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0; background: var(--bg); color: var(--ink);
-    font-family: var(--body); font-size: 1.125rem; line-height: 1.6;
-  }
-  .wrap { max-width: 64rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
-  a { color: var(--link); text-underline-offset: 3px; }
-  a:focus-visible, button:focus-visible { outline: 3px solid var(--mark); outline-offset: 3px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); line-height: 1.5; }
+  .wrap { max-width: 40rem; margin: 0 auto; padding: 2.75rem 1.25rem 4rem; display: flex; flex-direction: column; gap: 1.4rem; }
+  a { color: var(--link); font-weight: 600; text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
 
-  /* Header */
-  h1 {
-    font-family: var(--display); font-weight: 800; letter-spacing: -0.03em;
-    font-size: clamp(2.75rem, 9vw, 5.5rem); line-height: 0.95; margin: 0 0 1.5rem;
-  }
-  .about { max-width: 38rem; margin: 0 0 1rem; }
-  .about p { margin: 0 0 0.75rem; }
-  .contact { font-family: var(--display); font-weight: 500; font-size: 1rem; display: flex; gap: 1.25rem; flex-wrap: wrap; margin: 0; padding: 0; list-style: none; }
+  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  h1 { margin: 0; font-size: clamp(2.25rem, 8vw, 2.75rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; }
+  .intro { margin: 0.5rem 0 0; max-width: 28rem; color: var(--muted); }
+  .links { display: flex; gap: 1rem; margin-top: 0.5rem; font-size: 0.95rem; }
+  #theme { font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--ink); background: var(--card); border: 1px solid var(--border); border-radius: 99px; padding: 0.35rem 0.85rem; cursor: pointer; white-space: nowrap; }
 
-  /* Cards */
-  h2 { font-family: var(--display); font-weight: 700; font-size: 1.5rem; margin: 3.5rem 0 0.25rem; }
-  .sub { color: var(--muted); margin: 0 0 1.5rem; max-width: 38rem; }
-  .grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
-  .card {
-    background: var(--card); border: 2px solid var(--line); border-radius: 4px;
-    padding: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem;
-  }
-  .card.featured { grid-column: 1 / -1; box-shadow: 8px 8px 0 var(--mark); }
-  .card.idea { border-style: dashed; background: transparent; }
-  .card header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
-  .card h3 { font-family: var(--display); font-weight: 700; font-size: 1.25rem; line-height: 1.2; margin: 0; }
-  .featured h3 { font-size: 1.75rem; }
-  .tag { font-family: var(--display); font-weight: 700; font-size: 0.8rem; padding: 0.15rem 0.55rem; border: 2px solid var(--line); border-radius: 99px; white-space: nowrap; }
-  .built .tag { background: var(--mark); color: #14213d; border-color: #14213d; }
-  .card p { margin: 0; }
-  .label { font-family: var(--display); font-weight: 700; font-size: 0.95rem; margin: 0.4rem 0 0; }
-  .card .link { font-family: var(--display); font-weight: 500; }
-  .idea .note { font-style: italic; color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .card-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .card h2 { margin: 0; font-size: 1.05rem; font-weight: 600; }
+  .card p { margin: 0; font-size: 0.95rem; color: var(--muted); }
+  .card a { font-size: 0.95rem; }
+  .tag { font-size: 0.8rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 99px; white-space: nowrap; }
+  .card .reflection { margin-top: 0.3rem; padding-top: 0.6rem; border-top: 1px solid var(--border); font-size: 0.9rem; color: var(--ink); }
 
-  footer { margin-top: 4rem; color: var(--muted); font-size: 0.95rem; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  .types { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .type { font-size: 0.75rem; font-weight: 600; padding: 0.1rem 0.55rem; border: 1px solid var(--border); border-radius: 99px; color: var(--muted); }
+  .featured .type { border-color: rgba(255,255,255,0.55); color: var(--on-accent); }
+  .idea .type { border-color: var(--gray-border); color: var(--gray-ink); }
+
+  /* Built: normal card, indigo tag */
+  .built { box-shadow: var(--lift); } /* built cards look raised */
+  .built .tag { background: var(--accent); color: var(--on-accent); }
+
+  /* Featured (Artifact 1 only): indigo card */
+  .featured { background: var(--accent); border-color: var(--featured-border); padding: 1.4rem 1.25rem; }
+  .featured h2 { font-size: 1.3rem; font-weight: 800; color: var(--on-accent); }
+  .featured p, .featured a, .featured .reflection { color: var(--on-accent); }
+  .featured .reflection { border-top-color: rgba(255,255,255,0.35); }
+  .featured .tag { background: var(--on-accent); color: #3730a3; }
+  .featured { box-shadow: var(--lift-featured); }
+
+  /* Idea: the whole card is grayed out */
+  .idea { background: var(--gray-bg); border-color: var(--gray-border); box-shadow: var(--recess); } /* inset shadow makes idea cards look pressed in */
+  .idea h2, .idea p, .idea a { color: var(--gray-ink); }
+  .idea .reflection { display: none; } /* reflection stays hidden until the card is marked built */
+  .idea a { font-weight: 400; text-decoration: none; }
+  .idea .tag { background: var(--gray-tag-bg); color: var(--gray-tag-ink); }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .controls[hidden], .card[hidden] { display: none; }
+  .controls button { font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--ink); background: var(--card); border: 1px solid var(--border); border-radius: 99px; padding: 0.3rem 0.85rem; cursor: pointer; }
+  .controls button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .controls button:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+  footer { font-size: 0.9rem; color: var(--muted); margin-top: 1rem; }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- ===== ABOUT ME: replace the filler text below ===== -->
+  <!-- ===== ABOUT ME: replace the filler text and links ===== -->
   <header>
-    <h1>Your Name</h1>
-    <div class="about">
-      <p>I'm a student at the University of Washington Tacoma studying computer science. I like building small tools that make everyday tasks easier, and I'm learning how to build them faster with AI assistants.</p>
-      <p>Right now I'm interested in web apps, automation, and anything that turns a boring chore into a button.</p>
+    <div class="top">
+      <h1>Your Name</h1>
+      <button id="theme" type="button">Dark mode</button>
     </div>
-    <ul class="contact">
-      <li><a href="https://github.com/your-username">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/your-username">LinkedIn</a></li>
-      <li><a href="mailto:you@example.com">you@example.com</a></li>
-    </ul>
+    <p class="intro">Computer science student who builds small tools that make everyday tasks easier.</p>
+    <div class="links">
+      <a href="https://github.com/your-username">GitHub</a>
+      <a href="https://www.linkedin.com/in/your-username">LinkedIn</a>
+      <a href="mailto:you@example.com">Email</a>
+    </div>
   </header>
 
-  <h2>My five artifacts</h2>
-  <p class="sub">One project per artifact in TCSS 490. Each card gets filled in as I finish the project.</p>
+  <!-- Type filter buttons. They are built from the type tags on the cards. -->
+  <div class="controls" id="filters" role="group" aria-label="Filter artifacts by type"></div>
 
-  <main class="grid">
+  <main style="display:contents">
 
-    <!-- ===== CARD 1: finished. Edit title, link, and reflection ===== -->
+    <!-- ===== ARTIFACT 1: finished. Edit the title, description, link, and reflection ===== -->
     <article class="card featured built">
-      <header>
-        <h3>Artifact 1: This portfolio site</h3>
+      <div class="card-head">
+        <h2>Artifact 1: This portfolio site</h2>
         <span class="tag">Built</span>
-      </header>
-      <p>A static site that holds one card for each artifact I build this quarter. It is also how I hand in every artifact.</p>
-      <a class="link" href="https://github.com/your-username/your-repo">View the repository</a>
-      <p class="label">Reflection</p>
-      <p>Filler reflection: Describe how building the site went, what the AI got right, where it misread what you asked, and what you learned along the way.</p>
+      </div>
+      <div class="types"><span class="type">Website</span></div>
+      <p>A static site that holds one card for each project I build this quarter.</p>
+      <a href="https://github.com/your-username/your-repo">View the repository</a>
+      <p class="reflection"><strong>Reflection:</strong> Filler text. Describe how building the site went, what the AI got right, where it misread you, and what you learned.</p>
     </article>
 
-    <!-- ===== CARDS 2-5: placeholders. Replace the idea text. When an artifact is done: ===== -->
-    <!-- 1) change class "idea" to "built", 2) change the tag to "Built", 3) fill in the link and reflection. -->
+    <!--
+      ===== ARTIFACTS 2-5 =====
+      When you finish an artifact:
+        1. Change class="card idea" to class="card built"
+        2. Change the tag text from Idea to Built
+        3. Replace the idea text with a description of what you made
+        4. Put your project link in the href and change the link text to "View the project"
+        5. Change the type tag (for example Website, Bot, Game). Add a second one by copying the <span class="type"> line.
+        6. Replace the reflection text with a few sentences on how it went and what you learned
+           (the reflection is hidden while the card is an idea and appears once it is built)
+    -->
 
     <article class="card idea">
-      <header>
-        <h3>Artifact 2: Title to be decided</h3>
+      <div class="card-head">
+        <h2>Artifact 2</h2>
         <span class="tag">Idea</span>
-      </header>
-      <p class="note">Idea: A bot that tells my learning group when the bus is late.</p>
-      <a class="link" href="#">Link coming soon</a>
-      <p class="label">Reflection</p>
-      <p class="note">Written after I finish this artifact.</p>
-    </article>
-
-    <article class="card idea">
-      <header>
-        <h3>Artifact 3: Title to be decided</h3>
-        <span class="tag">Idea</span>
-      </header>
-      <p class="note">Idea: A study planner that turns my syllabus dates into a weekly to-do list.</p>
-      <a class="link" href="#">Link coming soon</a>
-      <p class="label">Reflection</p>
-      <p class="note">Written after I finish this artifact.</p>
-    </article>
-
-    <article class="card idea">
-      <header>
-        <h3>Artifact 4: Title to be decided</h3>
-        <span class="tag">Idea</span>
-      </header>
-      <p class="note">Idea: A tool that sorts my downloads folder by project automatically.</p>
-      <a class="link" href="#">Link coming soon</a>
-      <p class="label">Reflection</p>
-      <p class="note">Written after I finish this artifact.</p>
+      </div>
+      <div class="types"><span class="type">Bot</span></div>
+      <p>A bot that warns my study group when the bus is late.</p>
+      <a href="#">Link coming soon</a>
+      <p class="reflection"><strong>Reflection:</strong> Written after I finish this artifact.</p>
     </article>
 
     <article class="card idea">
-      <header>
-        <h3>Artifact 5: Title to be decided</h3>
+      <div class="card-head">
+        <h2>Artifact 3</h2>
         <span class="tag">Idea</span>
-      </header>
-      <p class="note">Idea: Something my parents' business could actually use.</p>
-      <a class="link" href="#">Link coming soon</a>
-      <p class="label">Reflection</p>
-      <p class="note">Written after I finish this artifact.</p>
+      </div>
+      <div class="types"><span class="type">Web app</span></div>
+      <p>A planner that turns syllabus dates into a weekly to-do list.</p>
+      <a href="#">Link coming soon</a>
+      <p class="reflection"><strong>Reflection:</strong> Written after I finish this artifact.</p>
+    </article>
+
+    <article class="card idea">
+      <div class="card-head">
+        <h2>Artifact 4</h2>
+        <span class="tag">Idea</span>
+      </div>
+      <div class="types"><span class="type">Tool</span></div>
+      <p>A tool that sorts my downloads folder by project.</p>
+      <a href="#">Link coming soon</a>
+      <p class="reflection"><strong>Reflection:</strong> Written after I finish this artifact.</p>
+    </article>
+
+    <article class="card idea">
+      <div class="card-head">
+        <h2>Artifact 5</h2>
+        <span class="tag">Idea</span>
+      </div>
+      <div class="types"><span class="type">Business tool</span></div>
+      <p>Something my parents' business could use.</p>
+      <a href="#">Link coming soon</a>
+      <p class="reflection"><strong>Reflection:</strong> Written after I finish this artifact.</p>
     </article>
 
   </main>
 
   <footer>
-    <p>Built with an AI assistant for TCSS 490. Log of prompts and changes: <a href="NOTES.md">NOTES.md</a></p>
+    Built with an AI assistant for TCSS 490. Log of prompts and changes: <a href="NOTES.md">NOTES.md</a>
   </footer>
 </div>
+
+<script>
+  // Type filter. Reads each card's type tags, so there is nothing extra to edit.
+  (function () {
+    var cards = [].slice.call(document.querySelectorAll('article.card'));
+    var box = document.getElementById('filters'), filter = 'All', types = [];
+    function typesOf(c) { return [].map.call(c.querySelectorAll('.type'), function (t) { return t.textContent.trim(); }); }
+    cards.forEach(function (c) {
+      typesOf(c).forEach(function (t) { if (types.indexOf(t) < 0) types.push(t); });
+    });
+    function render() {
+      [].forEach.call(box.children, function (b) { b.setAttribute('aria-pressed', b.textContent === filter); });
+      cards.forEach(function (c) {
+        c.hidden = filter !== 'All' && typesOf(c).indexOf(filter) < 0;
+      });
+    }
+    ['All'].concat(types).forEach(function (t) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = t;
+      b.addEventListener('click', function () { filter = t; render(); });
+      box.appendChild(b);
+    });
+    render();
+  })();
+
+  // Dark mode toggle. Follows the device setting until the visitor clicks the button.
+  (function () {
+    var root = document.documentElement, btn = document.getElementById('theme');
+    try { var saved = localStorage.getItem('theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
+    function current() {
+      var t = root.getAttribute('data-theme');
+      if (t) return t;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function label() { btn.textContent = current() === 'dark' ? 'Light mode' : 'Dark mode'; }
+    btn.addEventListener('click', function () {
+      var next = current() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      label();
+    });
+    label();
+  })();
+</script>
 </body>
 </html>
